@@ -39,6 +39,14 @@ datNest %>%
     filter(!is.na(name)) %>%
     pivot_wider(names_from = name, values_from = value)
 
+# making every row as a store for the popularity
+datNest %>%
+    slice(1:5) %>%
+    select(placekey, location_name, latitude, longitude, city, region, popularity_by_day) %>% # nolint
+    unnest(popularity_by_day) %>%
+    filter(!is.na(name)) %>%
+    pivot_wider(names_from = name, values_from = value)
+
 
 dat %>%
     slice(2:3) %>%
