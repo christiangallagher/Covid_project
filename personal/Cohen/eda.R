@@ -1,6 +1,4 @@
-library(tidyverse)
-library(sf)
-library(jsonlite)
+pacman::p_load(tidyverse, sf, jsonlite)
 
 json_to_tibble <- function(x) {
     if (is.na(x))  return(x)
@@ -10,6 +8,10 @@ json_to_tibble <- function(x) {
 }
 
 dat <- read_csv("SafeGraph - Patterns and Core Data - Chipotle - July 2021/Core Places and Patterns Data/chipotle_core_poi_and_patterns.csv") # nolint
+
+dat %>%
+    slice(5:10) %>%
+    pull(popularity_by_day)
 
 datNest <- dat %>% # nolint
     slice(1:25) %>% # for the example
@@ -25,6 +27,18 @@ datNest <- dat %>% # nolint
         visitor_home_aggregation = map(visitor_home_aggregation, ~json_to_tibble(.x)), # nolint
         visitor_daytime_cbgs = map(visitor_daytime_cbgs, ~json_to_tibble(.x))
         )
+
+datNest %>% slice(1:5) %>% select(placekey, location_name, latitude, longitude, city, region, device_type) # nolint
+
+dat %>% slice(1:5) %>% select(placekey, location_name, latitude, longitude, city, region, device_type) # nolint
+
+datNest %>%
+    slice(1:5) %>%
+    select(placekey, location_name, latitude, longitude, city, region, device_type) %>% # nolint
+    unnest(device_type) %>%
+    filter(!is.na(name)) %>%
+    pivot_wider(names_from = name, values_from = value)
+
 
 dat %>%
     slice(2:3) %>%
