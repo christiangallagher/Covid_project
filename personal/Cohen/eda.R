@@ -47,6 +47,16 @@ datNest %>%
     filter(!is.na(name)) %>%
     pivot_wider(names_from = name, values_from = value)
 
+#when you do unnest two variables together, it will repeat the rows 
+datNest %>%
+    slice(1:5) %>%
+    select(placekey, location_name, latitude, longitude, city, region, device_type, popularity_by_day) %>% # nolint
+    unnest(popularity_by_day) %>%
+    filter(!is.na(name)) %>%
+    pivot_wider(names_from = name, values_from = value) %>%
+    unnest(device_type)
+
+#if we want to do unnesting together, then we should do two different unnests and join them together by key # nolint
 
 dat %>%
     slice(2:3) %>%
