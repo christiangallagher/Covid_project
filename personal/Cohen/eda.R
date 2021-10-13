@@ -1,13 +1,13 @@
 pacman::p_load(tidyverse, sf, jsonlite)
 
 json_to_tibble <- function(x) {
-    if(is.na(x))  return(x)
+    if(is.na(x))  return(x) #nolint
     parse_json(x) %>%
     enframe() %>%
     unnest(value)
 }
 
-bracket_to_tibble <- function(x){
+bracket_to_tibble <- function(x){ # nolint
     value <- str_replace_all(x, "\\[|\\]", "") %>%
         str_split(",", simplify = TRUE) %>%
         as.numeric()
@@ -18,47 +18,47 @@ bracket_to_tibble <- function(x){
 }
 
 
-dat <- read_csv("SafeGraph - Patterns and Core Data - Chipotle - July 2021/Core Places and Patterns Data/chipotle_core_poi_and_patterns.csv")
+dat <- read_csv("SafeGraph - Patterns and Core Data - Chipotle - July 2021/Core Places and Patterns Data/chipotle_core_poi_and_patterns.csv") # nolint
 
 dat %>%
     slice(5:10) %>%
     pull(popularity_by_day)
 
-dat <- read_csv("SafeGraph - Patterns and Core Data - Chipotle - July 2021/Core Places and Patterns Data/chipotle_core_poi_and_patterns.csv")
+dat <- read_csv("SafeGraph - Patterns and Core Data - Chipotle - July 2021/Core Places and Patterns Data/chipotle_core_poi_and_patterns.csv") #nolint
 
-datNest <- dat %>%
+datNest <- dat %>% #nolint
     slice(1:50) %>% # for the example in class.
     mutate(
         open_hours = map(open_hours, ~json_to_tibble(.x)),
         visits_by_day = map(visits_by_day, ~bracket_to_tibble(.x)),
-        visitor_country_of_origin = map(visitor_country_of_origin, ~json_to_tibble(.x)),
+        visitor_country_of_origin = map(visitor_country_of_origin, ~json_to_tibble(.x)), #nolint
         bucketed_dwell_times = map(bucketed_dwell_times, ~json_to_tibble(.x)),
-        related_same_day_brand = map(related_same_day_brand, ~json_to_tibble(.x)),
-        related_same_month_brand = map(related_same_month_brand, ~json_to_tibble(.x)),
+        related_same_day_brand = map(related_same_day_brand, ~json_to_tibble(.x)), #nolint
+        related_same_month_brand = map(related_same_month_brand, ~json_to_tibble(.x)), #nolint
         popularity_by_hour = map(popularity_by_hour, ~json_to_tibble(.x)),
         popularity_by_day = map(popularity_by_day, ~json_to_tibble(.x)),
         device_type = map(device_type, ~json_to_tibble(.x)),
         visitor_home_cbgs = map(visitor_home_cbgs, ~json_to_tibble(.x)),
-        visitor_home_aggregation = map(visitor_home_aggregation, ~json_to_tibble(.x)),
+        visitor_home_aggregation = map(visitor_home_aggregation, ~json_to_tibble(.x)), #nolint
         visitor_daytime_cbgs = map(visitor_daytime_cbgs, ~json_to_tibble(.x))
-        ) 
+        )
 
-datNest <- datNest %>%
+datNest <- datNest %>% #nolint
     select(placekey, latitude, longitude, street_address,
-        city, region, postal_code,  
+        city, region, postal_code,
         raw_visit_counts:visitor_daytime_cbgs, parent_placekey, open_hours)
 
 datNest %>%
     slice(1:5) %>%
-    select(placekey, location_name, latitude, 
+    select(placekey, location_name, latitude,
         longitude, city, region, device_type)
 
 dat %>%
     slice(1:5) %>%
     select(placekey, location_name, latitude,
-        longitude, city, region, device_type) 
+        longitude, city, region, device_type)
 
-datNest %>% 
+datNest %>%
     slice(1:5) %>%
     select(placekey, location_name, latitude, longitude,
         city, region, device_type) %>%
@@ -66,7 +66,7 @@ datNest %>%
     filter(!is.na(name)) %>%
     pivot_wider(names_from = name, values_from = value)
 
-datNest %>% 
+datNest %>%
     slice(1:5) %>%
     select(placekey, location_name, latitude, longitude,
         city, region, popularity_by_day) %>%
@@ -75,9 +75,9 @@ datNest %>%
     pivot_wider(names_from = name, values_from = value)
 
 # This is a problem
-datNest %>% 
+datNest %>%
     slice(1:5) %>%
-    select(placekey, location_name, latitude, longitude, 
+    select(placekey, location_name, latitude, longitude,
         city, region, device_type, popularity_by_day) %>%
     unnest(popularity_by_day) %>%
     filter(!is.na(name)) %>%
@@ -99,7 +99,7 @@ dat_all <- dat %>%
         visitor_home_aggregation = map(visitor_home_aggregation, ~json_to_tibble(.x)) , # nolint
         visitor_daytime_cbgs = map(visitor_daytime_cbgs, ~json_to_tibble(.x))) %>% # nolint
     select(placekey, latitude, longitude, street_address,
-        city, region, postal_code,  
+        city, region, postal_code,
         raw_visit_counts:visitor_daytime_cbgs, parent_placekey, open_hours)
 
 write_rds(dat_all, "chipotle_nested.rds")
