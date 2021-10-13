@@ -24,7 +24,7 @@ ksu <- tibble(latitude = 34.037876, longitude = -84.58102) %>%
 
     # https://epsg.io/4326 units are degrees
 calw <- cal %>%
-    st_transform(3310) %>% # search https://spatialreference.org/ref/?search=california&srtext=Search. Units are in meters for buffer.
+    st_transform(3310) %>% # search https://spatialreference.org/ref/?search=california&srtext=Search. Units are in meters for buffer. # nolint
     filter(name != "San Francisco") %>%
     mutate(
         aland_acres = aland * 0.000247105,
@@ -35,5 +35,5 @@ calw <- cal %>%
         sf_length = st_length(geometry),
         sf_distance = st_distance(sf_center, ksu),
         sf_buffer = st_buffer(sf_center, 24140.2), # 24140.2 is 15 miles
-        sf_intersects = st_intersects(., filter(., name == "Los Angeles"), sparse = FALSE)
+        sf_intersects = st_intersects(., filter(., name == "Los Angeles"), sparse = FALSE) # nolint
         )
