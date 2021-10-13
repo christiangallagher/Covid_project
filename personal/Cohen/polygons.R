@@ -33,4 +33,4 @@ chipotle_in_county %>%
     as_tibble() %>%
     count(geoid, name)
 
-hi <- read_csv("core_poi-patterns 07_2021.csv")
+
