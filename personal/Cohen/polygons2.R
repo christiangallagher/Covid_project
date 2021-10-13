@@ -120,7 +120,7 @@ ggplot() +
       
 calw %>%
 ggplot() +
-    geom_sf(aes(fill = Saturday)) + 
+    geom_sf(aes(fill = Saturday)) +
     geom_sf(aes(geometry = sf_center, size = count), color = "grey") +
     theme_bw() +
     scale_size_continuous(breaks = c(1, 5, 10, 25, 50, 75),
@@ -129,7 +129,7 @@ ggplot() +
         fill = "Average store traffic",
         size = "Number of stores",
         title = "Saturday traffic for Chipotle")
-        calw_4326 <- st_transform(calw, 4326) # will need in 4326 for leaflet 
+        calw_4326 <- st_transform(calw, 4326) # will need in 4326 for leaflet
 
 bins <- c(0, 10, 20, 30, 50, 70, 90, 110)
 pal <- colorBin("YlOrRd", domain = calw_4326$n)
