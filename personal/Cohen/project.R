@@ -12,8 +12,5 @@ hi <- aug %>% st_as_sf(coords = c("longitude", "latitude"), crs = 4326)
 
 select(dat, street_address, region, geometry)
 
-cal <- USAboundaries::us_counties(states = "California")
-
 ggplot() +
-    geom_sf(data = hi) +
-    geom_sf(data = filter(dat, region == "CA"))
+    geom_sf(data = hi)
