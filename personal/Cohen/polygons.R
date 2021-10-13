@@ -1,5 +1,5 @@
 pacman::p_load(tidyverse, sf, USAboundaries, leaflet)
-install.packages("USAboundariesData", repos = "http://packages.ropensci.org", type = "source")
+#install.packages("USAboundariesData", repos = "http://packages.ropensci.org", type = "source") #nolint
 
 httpgd::hgd()
 httpgd::hgd_browse()
@@ -32,3 +32,5 @@ chipotle_in_county <- st_join(dat, cal, join = st_within)
 chipotle_in_county %>%
     as_tibble() %>%
     count(geoid, name)
+
+hi <- read_csv("core_poi-patterns 07_2021.csv")
