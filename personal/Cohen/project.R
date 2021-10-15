@@ -10,7 +10,7 @@ sep <- read_csv("Data folder/core_poi-patterns_09_2021.csv")
 
 hi <- aug %>% st_as_sf(coords = c("longitude", "latitude"), crs = 4326)
 
-select(dat, street_address, region, geometry)
+select(hi, street_address, region, geometry)
 
 ggplot() +
-    geom_sf(data = hi)
+    geom_sf(data = filter(hi, region == "GA"))
