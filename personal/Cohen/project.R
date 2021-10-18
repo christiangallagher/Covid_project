@@ -1,4 +1,4 @@
-pacman::p_load(tidyverse, sf, USAboundaries, leaflet)
+pacman::p_load(tidyverse, sf, USAboundaries, leaflet, cowplot)
 #install.packages("USAboundariesData", repos = "http://packages.ropensci.org", type = "source") #nolint
 
 httpgd::hgd()
@@ -12,10 +12,10 @@ dat <- rbind(july, aug, sep)
 
 dat <- dat %>% filter(region == "GA")
 
-dat_aug <- aug %>% st_as_sf(coords = c("longitude", "latitude"), crs = 4326)
-
 ga <- us_counties(states = "Georgia") %>%
     select(countyfp, countyns, name, aland, awater, state_abbr, geometry)
+
+dat_july <- july %>% st_as_sf(coords = c("longitude", "latitude"), crs = 4326)
 
 ga %>%
     mutate(
@@ -43,17 +43,17 @@ ggplot(data = gaw) +
     geom_sf(aes(geometry = sf_buffer), fill = "white") +
     geom_sf(aes(geometry = sf_center), color = "darkgrey") +
     geom_sf_text(aes(label = name), color = "lightgrey") +
-    geom_sf(data = filter(dat_aug, region == "GA"), color = "black") +
+    geom_sf(data = filter(dat_july, region == "GA"), color = "black") +
     theme_bw()
 
 ggplot(data = gaw) +
     geom_sf(aes(geometry = sf_buffer), fill = NA) +
     geom_sf(aes(geometry = sf_center), color = "darkgrey") +
     geom_sf_text(aes(label = name), color = "lightgrey") +
-    geom_sf(data = filter(dat_aug, region == "GA"), color = "black") +
+    geom_sf(data = filter(dat_july, region == "GA"), color = "black") +
     theme_bw()
 
-covid_cases <- st_join(dat_aug, ga, join = st_within) %>%
+covid_cases <- st_join(dat_july, ga, join = st_within) %>%
     select(placekey, visits_by_day, city, region, geometry, raw_visitor_counts, location_name, countyfp) # nolint
 
 covid_cases_count <- covid_cases %>%
@@ -64,11 +64,44 @@ covid_cases_count <- covid_cases %>%
 gaw <- gaw %>%
     left_join(covid_cases_count, fill = 0)
 
-gaw %>%
+A <- gaw %>%
 ggplot() +
     geom_sf(aes(fill = n)) +
     scale_fill_continuous(trans = "sqrt") +
     geom_sf(data = filter(dat_aug, region == "GA"), color = "white", shape = "x") + # nolint
+    theme_bw() +
+    theme(legend.position = "bottom") +
+    labs(fill = "Number of Hospitals")
+
+dat_aug <- aug %>% st_as_sf(coords = c("longitude", "latitude"), crs = 4326)
+
+B <- gaw %>%
+ggplot() +
+    geom_sf(aes(fill = n)) +
+    scale_fill_continuous(trans = "sqrt") +
+    geom_sf(data = filter(dat_aug, region == "GA"), color = "white", shape = "x") + # nolint
+    theme_bw() +
+    theme(legend.position = "bottom") +
+    labs(fill = "Number of Hospitals")
+
+ggdraw() +
+  draw_plot(A, x = 0, y = .5, width = .5, height = .5) +
+  draw_plot(B, x = .5, y = .5, width = .5, height = .5)
+
+# all the months on the plot
+
+dat_sf <- dat %>% st_as_sf(coords = c("longitude", "latitude"), crs = 4326)
+
+ggplot() +
+    geom_sf(data = ga) +
+    geom_sf(data = dat_sf) +
+    theme_bw()
+
+gaw %>%
+ggplot() +
+    geom_sf(aes(fill = n)) +
+    scale_fill_continuous(trans = "sqrt") +
+    geom_sf(data = filter(dat_sf, region == "GA"), color = "white", shape = "O") + # nolint
     theme_bw() +
     theme(legend.position = "bottom") +
     labs(fill = "Number of Hospitals")
