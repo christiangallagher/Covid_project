@@ -8,6 +8,16 @@ july <- read_csv("Data folder/core_poi-patterns_07_2021.csv")
 aug <- read_csv("Data folder/core_poi-patterns_08_2021.csv")
 sep <- read_csv("Data folder/core_poi-patterns_09_2021.csv")
 
+covid_sites2 <- read_csv("Data folder/Covid_Testing_Sites.csv") %>%
+    filter(X > -85.5, Y > 29)
+
+covid_sites2 <- covid_sites2 %>% st_as_sf(coords = c("X", "Y"), crs = 4326)
+
+ggplot() +
+    geom_sf(data = ga) +
+    geom_sf(data = covid_sites2) +
+    theme_bw()
+
 dat <- rbind(july, aug, sep)
 
 dat <- dat %>% filter(region == "GA")
@@ -101,7 +111,7 @@ gaw %>%
 ggplot() +
     geom_sf(aes(fill = n)) +
     scale_fill_continuous(trans = "sqrt") +
-    geom_sf(data = filter(dat_sf, region == "GA"), color = "white", shape = "O") + # nolint
+    geom_sf(data = filter(dat_sf, region == "GA"), color = "white", shape = "x") + # nolint
     theme_bw() +
     theme(legend.position = "bottom") +
     labs(fill = "Number of Hospitals")
