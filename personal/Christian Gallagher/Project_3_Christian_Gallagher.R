@@ -70,7 +70,7 @@ tab2 <- df %>%
   group_by(city)
 
 tab2 <- tab2 %>%
-  summarize(n = sum(raw_visit_counts))
+  summarize(n = sum(raw_visit_counts, na.rm = TRUE))
 
 tab3 <- merge(tab2, city_pop2019, by.x = "city", by.y = "name")
 
