@@ -105,13 +105,6 @@ ggplot() +
   labs(size = "Raw Visit Count") +
   theme_bw() 
 
-exp <- ga3 %>%
-  summarize(sum(raw_visit_counts)) 
-
-ggplot() +
-  geom_sf(data = ga) +
-  geom_sf(data = ga3, color = "green", aes(size = (raw_visit_counts/pop2021)*100)) 
-
 
 
 ggplot() +
@@ -132,7 +125,7 @@ df2 <- data %>%
 
 
 
-
+##### class work
 dat_wc <- st_join(data, ga, join = st_within)
 
 days_week_long <- dat_wc %>%
