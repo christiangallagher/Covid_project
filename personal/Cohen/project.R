@@ -13,19 +13,38 @@ covid_sites2 <- read_csv("Data folder/Covid_Testing_Sites.csv") %>%
 
 covid_sites2 <- covid_sites2 %>% st_as_sf(coords = c("X", "Y"), crs = 4326)
 
+dat <- rbind(july, aug, sep)
+
+dat <- dat %>% filter(region == "GA")
+
+dat <- dat %>%
+  #slice(1:25) %>% # for the example
+  mutate(
+    open_hours = map(open_hours, ~json_to_tibble(.x)),
+    visits_by_day = map(visits_by_day, ~json_to_tibble(.x)),
+    visitor_home_cbgs = map(visitor_home_cbgs, ~json_to_tibble(.x)),
+    visitor_country_of_origin = map(visitor_country_of_origin, ~json_to_tibble(.x)), #nolint 
+    bucketed_dwell_times = map(bucketed_dwell_times, ~json_to_tibble(.x)),
+    related_same_day_brand = map(related_same_day_brand, ~json_to_tibble(.x)),
+    related_same_month_brand = map(related_same_month_brand, ~json_to_tibble(.x)), #nolint
+    popularity_by_hour = map(popularity_by_hour, ~json_to_tibble(.x)),
+    popularity_by_day = map(popularity_by_day, ~json_to_tibble(.x)),
+    device_type = map(device_type, ~json_to_tibble(.x)),
+    visitor_home_aggregation = map(visitor_home_aggregation, ~json_to_tibble(.x)), #nolint
+    visitor_daytime_cbgs = map(visitor_daytime_cbgs, ~json_to_tibble(.x)),
+  )
+
+ga <- us_counties(states = "Georgia") %>%
+    select(countyfp, countyns, name, aland, awater, state_abbr, geometry)
+
 ggplot() +
     geom_sf(data = ga) +
     geom_sf(data = covid_sites2) +
     theme_bw()
 
-dat <- rbind(july, aug, sep)
-
-dat <- dat %>% filter(region == "GA")
-
-ga <- us_counties(states = "Georgia") %>%
-    select(countyfp, countyns, name, aland, awater, state_abbr, geometry)
-
 dat_july <- july %>% st_as_sf(coords = c("longitude", "latitude"), crs = 4326)
+dat_aug <- aug %>% st_as_sf(coords = c("longitude", "latitude"), crs = 4326)
+dat_sep <- sep %>% st_as_sf(coords = c("longitude", "latitude"), crs = 4326)
 
 ga %>%
     mutate(
@@ -74,7 +93,7 @@ covid_cases_count <- covid_cases %>%
 gaw <- gaw %>%
     left_join(covid_cases_count, fill = 0)
 
-A <- gaw %>%
+aug_plot <- gaw %>%
 ggplot() +
     geom_sf(aes(fill = n)) +
     scale_fill_continuous(trans = "sqrt") +
@@ -83,20 +102,28 @@ ggplot() +
     theme(legend.position = "bottom") +
     labs(fill = "Number of Hospitals")
 
-dat_aug <- aug %>% st_as_sf(coords = c("longitude", "latitude"), crs = 4326)
-
-B <- gaw %>%
+july_plot <- gaw %>%
 ggplot() +
     geom_sf(aes(fill = n)) +
     scale_fill_continuous(trans = "sqrt") +
-    geom_sf(data = filter(dat_aug, region == "GA"), color = "white", shape = "x") + # nolint
+    geom_sf(data = filter(dat_july, region == "GA"), color = "white", shape = "x") + # nolint
+    theme_bw() +
+    theme(legend.position = "bottom") +
+    labs(fill = "Number of Hospitals")
+
+sep_plot <- gaw %>%
+ggplot() +
+    geom_sf(aes(fill = n)) +
+    scale_fill_continuous(trans = "sqrt") +
+    geom_sf(data = filter(dat_sep, region == "GA"), color = "white", shape = "x") + # nolint
     theme_bw() +
     theme(legend.position = "bottom") +
     labs(fill = "Number of Hospitals")
 
 ggdraw() +
-  draw_plot(A, x = 0, y = .5, width = .5, height = .5) +
-  draw_plot(B, x = .5, y = .5, width = .5, height = .5)
+  draw_plot(july_plot, x = 0, y = .5, width = .5, height = .5) +
+  draw_plot(sep_plot, x = .5, y = .5, width = .5, height = .5) +
+  draw_plot(aug_plot, x = .5, y = .5, width = .5, height = .5)
 
 # all the months on the plot
 
