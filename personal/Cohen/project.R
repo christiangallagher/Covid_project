@@ -1,4 +1,4 @@
-pacman::p_load(tidyverse, sf, USAboundaries, leaflet, cowplot, stringdist)
+pacman::p_load(tidyverse, sf, USAboundaries, leaflet, cowplot, stringdist, ggspatial)
 #install.packages("USAboundariesData", repos = "http://packages.ropensci.org", type = "source") #nolint
 
 httpgd::hgd()
@@ -167,16 +167,12 @@ summarise(pcc = sum(cases_avg_per_100k))
 
 countycases <- merge(ga, test1, by = "county")
 
-path6 <- "/Users/christiangallagher/Documents/SUB-IP-EST2019-ANNRES-13.csv"
-city_pop <- read_csv(path6)
+city_pop <- read_csv("Data folder/City_pop.csv")
 
 city_pop2019 <- city_pop %>%
   select("name", "pop2019")
 
-county_pop <- county_pop %>%
-  select("name", "pop2021")
-
-df <- merge(df, city_pop2019, by.x = "city", by.y = "name")
+df <- merge(dat_sf, city_pop2019, by.x = "city", by.y = "name")
 
 tab2 <- df %>%
   group_by(city)
@@ -189,11 +185,11 @@ tab3 <- merge(tab2, city_pop2019, by.x = "city", by.y = "name")
 ggplot() +
     geom_sf(data = countycases, aes(fill = pcc)) +
     scale_fill_viridis_c(trans = "sqrt", alpha = .4) +
-    geom_sf(data = dat_sf) +
+    geom_sf(data = dat_sf)+
     geom_sf(data = tab3, color = "cyan",
-          aes(size = (n/pop2019)*100)) +
+          aes(size = (n / pop2019) * 100)) +
   annotation_scale(location = "tr", width_hint = 0.25) +
-  annotation_north_arrow(location = "tr", which_north = "true", 
+  annotation_north_arrow(location = "tr", which_north = "true",
                          pad_x = unit(0.75, "cm"), pad_y = unit(0.75, "cm"),
                          style = north_arrow_fancy_orienteering) +
   labs(size = "Proportional Visit Count")
