@@ -178,16 +178,16 @@ tab2 <- df %>%
   group_by(city)
 
 tab2 <- tab2 %>%
-  summarize(n = sum(raw_visit_counts))
+  summarize(n = sum(raw_visit_counts, na.rm = TRUE))
 
 tab3 <- merge(tab2, city_pop2019, by.x = "city", by.y = "name")
 
 ggplot() +
     geom_sf(data = countycases, aes(fill = pcc)) +
     scale_fill_viridis_c(trans = "sqrt", alpha = .4) +
-    geom_sf(data = dat_sf)+
-    geom_sf(data = tab3, color = "cyan",
-          aes(size = (n / pop2019) * 100)) +
+    geom_sf(data = dat_sf) +
+    geom_sf(data = tab3, color = "black",
+          aes(size = (n / pop2019) * 100), alpha = 0.5) +
   annotation_scale(location = "tr", width_hint = 0.25) +
   annotation_north_arrow(location = "tr", which_north = "true",
                          pad_x = unit(0.75, "cm"), pad_y = unit(0.75, "cm"),
