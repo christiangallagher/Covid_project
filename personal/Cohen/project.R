@@ -152,7 +152,7 @@ cases <- cases %>% filter(state == "Georgia", date >= as.Date("2021-07-01"), dat
 
 cases %>%
 ggplot() +
-    geom_sf(data = ga) +
+    geom_sf(data = ga, color = "red") +
     theme_bw()
 
 ga <- ga[, !duplicated(colnames(ga))]
@@ -183,16 +183,17 @@ tab2 <- tab2 %>%
 tab3 <- merge(tab2, city_pop2019, by.x = "city", by.y = "name")
 
 ggplot() +
-    geom_sf(data = countycases, aes(fill = pcc)) +
+    geom_sf(data = countycases, aes(fill = pcc), color = "red") +
     scale_fill_viridis_c(trans = "sqrt", alpha = .4) +
-    geom_sf(data = dat_sf) +
+    # geom_sf(data = dat_sf) +
     geom_sf(data = tab3, color = "black",
           aes(size = (n / pop2019) * 100), alpha = 0.5) +
-  annotation_scale(location = "tr", width_hint = 0.25) +
-  annotation_north_arrow(location = "tr", which_north = "true",
-                         pad_x = unit(0.75, "cm"), pad_y = unit(0.75, "cm"),
-                         style = north_arrow_fancy_orienteering) +
-  labs(size = "Proportional Visit Count")
+#   annotation_scale(location = "tr", width_hint = 0.25) +
+#   annotation_north_arrow(location = "tr", which_north = "true",
+#                          pad_x = unit(0.75, "cm"), pad_y = unit(0.75, "cm"),
+#                          style = north_arrow_fancy_orienteering) +
+ labs(size = "Proportional Visit Count")
+ggsave(file = "test_plot2.png", width = 15, height = 6)
 
 #Do cases correlate with number of testing sites in the county?
 #Do cases correlate with number of hospital visits?
