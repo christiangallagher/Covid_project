@@ -72,7 +72,7 @@ tab3 <- merge(tab2, city_pop2019, by.x = "city", by.y = "name")
 
 ggplot() +
   geom_sf(data = ga) +
-  geom_sf(data = tab3, color = "cyan",
+  geom_sf(data = tab3, 
           aes(size = (n/pop2019)*100)) +
   annotation_scale(location = "tr", width_hint = 0.25) +
   annotation_north_arrow(location = "tr", which_north = "true", 
