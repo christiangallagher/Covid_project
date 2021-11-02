@@ -2,13 +2,19 @@
 
 # %%
 # # installing geopandas
-import sys
-!{sys.executable} -m pip install geopandas
+# import sys
+# !{sys.executable} -m pip install geopandas
 
 
 # conda install [-c channel] [package...]
 # conda install -c conda-forge gdal
 
+# import sys
+# git clone https://github.com/geopandas/geopandas.git
+# cd geopandas
+# pip install .
+
+# pip install git+git://github.com/geopandas/geopandas.git
 #%%
 # installing pygeos
 # import sys
@@ -17,18 +23,18 @@ import sys
 
 # %%
 
-!{sys.executable} -m pip install wheel
-!{sys.executable} -m pip install pipwin
-!{sys.executable} -m pipwin install numpy
-!{sys.executable} -m pipwin install pandas
-!{sys.executable} -m pipwin install shapely
-!{sys.executable} -m pipwin install gdal
-!{sys.executable} -m pipwin install fiona
-!{sys.executable} -m pipwin install pyproj
-!{sys.executable} -m pipwin install six
-!{sys.executable} -m pipwin install rtree
-!{sys.executable} -m pipwin install geopandas
-!{sys.executable} -m pipwin install pyarrow
+# !{sys.executable} -m pip install wheel
+# !{sys.executable} -m pip install pipwin
+# !{sys.executable} -m pipwin install numpy
+# !{sys.executable} -m pipwin install pandas
+# !{sys.executable} -m pipwin install shapely
+# !{sys.executable} -m pipwin install gdal
+# !{sys.executable} -m pipwin install fiona
+# !{sys.executable} -m pipwin install pyproj
+# !{sys.executable} -m pipwin install six
+# !{sys.executable} -m pipwin install rtree
+# !{sys.executable} -m pipwin install geopandas
+# !{sys.executable} -m pipwin install pyarrow
 
 
 # %%
