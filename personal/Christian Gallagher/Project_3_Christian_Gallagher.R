@@ -72,7 +72,7 @@ tab3 <- merge(tab2, city_pop2019, by.x = "city", by.y = "name")
 
 ggplot() +
   geom_sf(data = ga) +
-  geom_sf(data = tab3, 
+  geom_sf(data = tab3, color = alpha("black", 0.1) ,
           aes(size = (n/pop2019)*100)) +
   annotation_scale(location = "tr", width_hint = 0.25) +
   annotation_north_arrow(location = "tr", which_north = "true", 
@@ -85,11 +85,12 @@ ggplot() +
 tab <- df%>% #looking at blairsville
   select("city", "raw_visit_counts", "pop2019") %>%
   filter(city == "Blairsville")
-#########  
+######### 
+
 
 ggplot() +
   geom_sf(data = ga) +
-  geom_sf(data = na.omit(tab3), color = alpha("green", 0.4),
+  geom_sf(data = na.omit(tab3), color = alpha("black", 0.4),
           aes(size = (n/pop2019)*100)) +
   facet_grid(cols = vars(date_range_start))+
   labs(size = "Proportional Visit Count") +
