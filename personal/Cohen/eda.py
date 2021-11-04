@@ -1,25 +1,27 @@
 
-# %%
-import sys
-!{sys.executable} -m pip uninstall geopandas
+# # %%
+# import sys
+# !{sys.executable} -m pip uninstall geopandas
 
-# %%
-import sys
-!{sys.executable} -m pip install geopandas
+# # %%
+# import sys
+# !{sys.executable} -m pip install geopandas
 
-import sys
-!{sys.executable} -m pip install folium matplotlib mapclassify
+# import sys
+# !{sys.executable} -m pip install folium matplotlib mapclassify
 
+# import sys
+# !{sys.executable} -m pip install rtree
 # %%
 import pandas as pd
 import numpy as np
 import geopandas as gpd
 
-# import folium
-# import rtree
+import folium
+import rtree
 
-# from plotnine import *
-# from shapely.geometry import Point
+from plotnine import *
+from shapely.geometry import Point
 
 # check working directory
 # import os
@@ -38,13 +40,8 @@ cobb_gj = gpd.read_file(cobb_url)
 
 # %%
 usa = gpd.read_parquet("usa.parquet")
-county = gpd.read_parquet("Cohen/usa_counties.parquet")
-cities = gpd.read_parquet("Cohen/usa_cities.parquet")
-# %%
-gpd.read_feather("Cohen/usa_counties.feather")
-# %%
-import sys
-!{sys.executable} -m pip install rtree
+county = gpd.read_parquet("usa_counties.parquet")
+cities = gpd.read_parquet("usa_cities.parquet")
 
 # %%
 
@@ -52,8 +49,7 @@ url_loc = "https://github.com/KSUDS/p3_spatial/raw/main/SafeGraph%20-%20Patterns
 
 dat = pd.read_csv(url_loc)
 
-
-dat = pd.read_csv("SafeGraph - Patterns and Core Data - Chipotle - July 2021/Core Places and Patterns Data/chipotle_core_poi_and_patterns.csv")
+# dat = pd.read_csv("SafeGraph - Patterns and Core Data - Chipotle - July 2021/Core Places and Patterns Data/chipotle_core_poi_and_patterns.csv")
 
 dat_sp = gpd.GeoDataFrame(
     dat.filter(["placekey", "latitude", "longitude", "median_dwell"]), 
@@ -65,17 +61,14 @@ dat_sp = gpd.GeoDataFrame(
 #%%
 
 dat_sp_lt100 = dat_sp.query("median_dwell < 100")
-c48 = county.query('statusps not in ["HI", "AK", "PR"]')
 
 # %%
 
-county = gpd.read_parquet("data/usa_counties.parquet")
+county = gpd.read_parquet("usa_counties.parquet")
 c48=county.query('stusps not in ["HI", "AK", "PR"]')
 
 base = c48.plot(color="white", edgecolor="darkgrey")
-dat_sp.plot(ax=base, color="red", markersize=5)
-
-# %%
+dat_sp.plot(ax=base, color="orange", markersize=5)
 
 # %%
 base_inter = c48.explore(
@@ -152,7 +145,7 @@ calw.gp_center.plot(color= "black")
 # %%
 
 base = calw.plot(color="white", edgecolor="darkgrey")
-dat_cal.plot(ax=base, color="red", markersize=5)
+dat_cal.plot(ax=base, color="orange", markersize=5)
 
 # %%
 
