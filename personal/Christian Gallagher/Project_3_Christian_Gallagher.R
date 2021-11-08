@@ -52,6 +52,7 @@ data <- data %>%
     visitor_daytime_cbgs= map(visitor_daytime_cbgs, ~json_to_tibble(.x)),
   ) 
 
+
 ga <- USAboundaries::us_counties(states = "Georgia") %>%
   select(countyfp, countyns, name, aland, awater, state_abbr, geometry)
 df <- data %>%
@@ -68,7 +69,7 @@ tab2 <- tab2 %>%
   summarize(n = sum(raw_visit_counts, na.rm = TRUE))
 
 tab3 <- merge(tab2, city_pop2019, by.x = "city", by.y = "name")
-
+write.csv(tab3,file="project3.csv" )
 
 ggplot() +
   geom_sf(data = ga) +
