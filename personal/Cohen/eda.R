@@ -24,8 +24,6 @@ dat %>%
     slice(5:10) %>%
     pull(popularity_by_day)
 
-dat <- read_csv("SafeGraph - Patterns and Core Data - Chipotle - July 2021/Core Places and Patterns Data/chipotle_core_poi_and_patterns.csv") #nolint
-
 datNest <- dat %>% #nolint
     slice(1:50) %>% # for the example in class.
     mutate(
