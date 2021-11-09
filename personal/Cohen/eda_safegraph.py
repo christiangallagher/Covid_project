@@ -60,8 +60,7 @@ dat10 = (dat_rsdb
 
 # top 3 brands : mcdonalds, walmart, starbucks
 
-(ggplot (dat10, aes(x='brand', y = 'visits'))+ geom_col(color= 'orange', fill = 'orange') + coord_flip())
-
+ggplot(data = dat10, mapping = aes(x='reorder(brand, visits)', y='visits')) + geom_col(color= 'orange', fill = 'orange') + coord_flip()
 
 # %%
 
@@ -70,88 +69,7 @@ dat10 = (dat_rsdb
 
 dat_pbh = sgf.expand_list("popularity_by_hour", dat)
 
-(ggplot(dat_pbh, aes(x= "hour.astype(str).str.zfill(2)", y = "popularity_by_hour")) + geom_boxplot() + scale_y_continuous(limits = [0,100]))
-
-# %%
-
-# https://towardsdatascience.com/cleaning-and-extracting-json-from-pandas-dataframes-f0c15f93cb38
-# https://packaging.python.org/tutorials/packaging-projects/
-import pandas as pd
-import json
-import re
-
-def jsonloads(x):
-    if pd.isna(x):
-        return None
-    else:
-        return json.loads(x)
-
-#seperating the list
-def createlist(x):
-    try:
-        return x.str.strip('][').str.split(',')
-    except:
-        return None
-
-#making a series of the numbers
-def rangenumbers(x):
-    if x.size == 1:
-        return 0 # if there is nothing (NA) in the list, then return 0
-    else:
-        return range(1, x.size + 1) # if there is something more than the list, then print more. (1:25 in R, range (1,25))
-
-#list comprehesion
-# my numbers - [i for i in range (1,24)]        
-
-def expand_json(var, dat):
-
-    rowid = dat.placekey
-
-    parsedat = dat[var]
-    loadsdat = parsedat.apply(jsonloads)
-    df_wide = pd.json_normalize(loadsdat)
-
-    # clean up store names so they work as column names
-    col_names = df_wide.columns
-    col_names = [re.sub(r'[^\w\s]','', x) for x in col_names] # remove non-alphanumeric characters
-    col_names = [str(col).lower().replace(" ", "_") for col in col_names] # replace spaces with dashes
-    col_names_long = [var + '-' + col for col in col_names] 
-    
-    # rename the columns
-    df_wide.columns = col_names_long # add variable name to column names
-
-    df_wide = df_wide.assign(placekey = rowid)
-
-    out = df_wide.loc[:, ["placekey"] + col_names_long]
-
-    return out
-
-def expand_list(var, dat):
-
-    dat_expand = (dat
-        .assign(lvar = createlist(dat[var]))
-        .filter(["placekey", "lvar"])
-        .explode("lvar") # like unnest in R, makes the list longer/extended
-        .reset_index(drop=True)
-        .rename(columns={"lvar":var})
-    )
-
-    dat_label = (dat_expand
-        .groupby('placekey')
-        .transform(lambda x: rangenumbers(x))
-        .reset_index(drop=True)
-    )
-    
-    if var.find("hour") !=-1:
-        dat_label.columns = ['hour'] # returns -1 if its there, and it is hour
-    elif var.find("day") !=-1:
-        dat_label.columns = ['day']
-    else :
-        dat_label.columns = ['sequence']
-
-    out = pd.concat([dat_expand, dat_label], axis=1) # in R cbind # axis = 0 for rbind and axis = 1 for cbind
-    # merging without a key is scary unless you know for sure your rows/columns are the same
-    out[var] = out[var].astype(float)
-    return out
-
+(ggplot(dat_pbh, aes(x = "hour.astype(str).str.zfill(2)", y = "popularity_by_hour")) +
+geom_boxplot() +
+scale_y_continuous(limits = [0, 100]))
 # %%
