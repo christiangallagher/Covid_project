@@ -17,6 +17,7 @@ aug = pd.read_csv("/Users/christiangallagher/Documents/STAT 4490/p3_CoheGallLee/
 sep = pd.read_csv("/Users/christiangallagher/Documents/STAT 4490/p3_CoheGallLee/Data folder/core_poi-patterns_09_2021.csv")
 data = pd.concat([july,aug,sep])
 data = data.query("region=='GA'")
+county_pop = pd.read_csv("/Users/christiangallagher/Documents/county_pop2.csv").rename(columns = {"CTYNAME" : "name"}).filter(["name" , "pop2021"])
 #%%
 data_sp = gpd.GeoDataFrame(
     data.filter(["placekey", "latitude", "longitude", "raw_visit_counts"]), 
@@ -26,7 +27,7 @@ data_sp = gpd.GeoDataFrame(
 #%%      
 data_ga = data.query("region=='GA'")
 data_ga = gpd.GeoDataFrame(
-    data_ga.filter(["placekey", "latitude", "longitude", "raw_vistit_counts", "region"]),
+    data_ga.filter(["placekey", "latitude", "longitude", "raw_visit_counts", "region", "date_range_start"]),
         geometry=gpd.points_from_xy(data_ga.longitude, data_ga.latitude),
     crs='EPSG:4326')
 #%%    
@@ -67,12 +68,16 @@ data_join = gpd.sjoin(data_ga, ga2)
 
 data_join_merge = (data_join
     .groupby("name")
-    .agg(counts = ('percent_water', 'size'))
-    .reset_index())
+    .size()
+    .reset_index()
+    .rename(columns = { 0 : "counts"}))
 
 ga_join = (ga2
     .merge(data_join_merge, on="name", how="left")
     .fillna(value={"counts":0}))
+
+ga_join2 = ga_join.merge(county_pop , on = "name", how = "left") 
+ 
 #%%
 base = ga_join.plot(
     edgecolor="darkgrey",
@@ -82,8 +87,8 @@ data_ga.plot(ax=base, color="red", markersize=2)
 #%% 
 dat_sp_lt100 = data_sp.query("raw_visit_counts > 1")
 
-base_inter = ga_join.explore(
-    column = 'counts',
+base_inter = ga_join2.explore(
+    column = 'pop2021',
     style_kwds = { 
         "color":"darkgrey",
         "weight":.4}
@@ -91,7 +96,7 @@ base_inter = ga_join.explore(
 
 theplot=dat_sp_lt100.explore(
     m=base_inter,
-    column='raw_visit_counts',
+    column="raw_visit_counts",
     legend = False,
     cmap="Set1",
     marker_kwds={"radius":2, "fill":True},
