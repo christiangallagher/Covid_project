@@ -1,16 +1,22 @@
-# Project 3: Telling a spatial story
+# Project 3: Coronavirus - Lauren Cohen, Christian Gallagher, Christopher Lee
 
-## Background
+## Investigation
 
-[SafeGraph](https://www.safegraph.com/) claims to be the _'source of truth for places data'_ and they allow [college faculty and students free use of their data](https://www.safegraph.com/academics). I have [downloaded data for Marietta and Kennesaw](https://github.com/KSUDS/safegraph_data) that we can use to get experience with the complexity of spatial-temporal data. However, you can elect to pull data for your own location or Point of Interest (POI) type using SafeGraph as well.
+The first subset of Safegraph data our group found interest in was all Medical Centers in Georgia.  Obviously, Coronavirus is and has been a topic of conversation for what feels like a lifetime.  A few of the popular talking points in the news concern the overfilling of hospital beds, and the lackluster vaccination rates in rural parts of the country.  From there, we explored additional data sets containing Covid testing sites, state population, and number of cases in the state per capita.
 
-As a class, we will identify a business purpose for this data.  Once we settle on a purpose, we will then finalize the project tasks.
+During the post-vaccine pandemic, is there a salient difference in hospital visits throughout Georgia, by county? Additionally, is the availability of Covid testing sites evenly distributed for all Georgians? Is there any noticeable relationship between number of covid cases and hospital visits?
 
-## Readings
+### Cases + Visits - An Outlier
 
-### Data information
+Our first plot attempt was to see if there was a noticeable relationship between number of Covid cases and average hospital visits by county.  In order to not make Fulton County and metro-Atlanta stick out like a sore thumb, we of course looked at per capita data.  The "hypothesis" is that the more per capita cases in a county, the larger number of hospital visits!
 
-This data cannot be shared in your repository based on our [use agreement with SafeGraph](https://shop.safegraph.com/terms-of-service/).  However, you can display your results and snippets to help explain your project. Use their [FAQ](https://docs.google.com/document/d/1h-pkpIZWeynF3_BcylRmgeWS7282kIUGoM0TSSIUhgM/edit#) for additional guidance.
+IMAGE
+
+This plot is a bit busy.  We were thinking the "brighter" the county, the larger the radius of visits.  Clearly, this didn't pan out.  The one noticeable outlier is Blairsville, in NE Georgia.  This outlier falls under the problem of low population, so it is much easier to display discrepancies when using per capita data.
+
+### Additional Factors
+
+Our next thought 
 
 - [Core Places data dictionary](https://docs.safegraph.com/docs/core-places)
 - [Geometry data dictionary](https://docs.safegraph.com/docs/geometry-data)
@@ -32,8 +38,8 @@ This data cannot be shared in your repository based on our [use agreement with S
 1. Complete the data joing and munging in R and Python.
 2. Complete the visualizations in R and Python.
 
-- [ ] Create an account with [SafeGraph](https://www.safegraph.com/academics)
-- [ ] Create a data investigation narrative or question that will drive your project.
-- [ ] Tell a story through time-series charts for your narrative.
-- [ ] Tell a story through spatial maps for your narrative.
-- [ ] Include a visualization that displays space and time in your narrative.
+- [X] Create an account with [SafeGraph](https://www.safegraph.com/academics)
+- [X] Create a data investigation narrative or question that will drive your project.
+- [X] Tell a story through time-series charts for your narrative.
+- [X] Tell a story through spatial maps for your narrative.
+- [X] Include a visualization that displays space and time in your narrative.
