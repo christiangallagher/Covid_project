@@ -40,6 +40,9 @@ This plot is a modification of the Chipotle plot done in class, with average hos
 
 We also have our first plot as an interactive in Python, but can't figure out how to put it in the readme.  ☺
 
+## Conclusion
+
+Unsure if we need a conclusion, BUT IN CONCLUSION, aside from a few counties, the rural parts of Georgia aren't having a tough a time as anticipated, with regard to per capita hospital visits and cases.  As mentioned prior, Blairsville is an outlier, and Telfair county possibly has inaccurate visit counts.  As for number of Georgians per testing site, there are a number of counties that have over 30,000 people per site.  These are Harris, Ben Hill, Jeff Davis, Evans, Morgan, Lincoln, and Seminole county
 
 ## Tasks
 
