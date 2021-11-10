@@ -10,7 +10,7 @@ During the post-vaccine pandemic, is there a salient difference in hospital visi
 
 Our first plot attempt was to see if there was a noticeable relationship between number of Covid cases and average hospital visits by county.  In order to not make Fulton County and metro-Atlanta stick out like a sore thumb, we of course looked at per capita data.  The "hypothesis" is that the more per capita cases in a county, the larger number of hospital visits!
 
-![](https://ibb.co/VN2Njh4)
+![](https://user-images.githubusercontent.com/79594138/141183206-c1507584-3248-4f7c-817a-6918d4b9f67f.png)
 
 This plot is a bit busy.  We were thinking the "brighter" the county, the larger the radius of visits.  Clearly, this didn't pan out.  The one noticeable outlier is Blairsville, in NE Georgia.  This outlier falls under the problem of low population, so it is much easier to display discrepancies when using per capita data.
 
@@ -18,7 +18,7 @@ This plot is a bit busy.  We were thinking the "brighter" the county, the larger
 
 Our next thought were the additional factors that could affect our data.  What if there is a discrepancy in the number of testing sites by county?  Would people of one county then be a positive test in the neighboring county?  This plot is to shine a light on the availability (or lackthereof) of testing sites for Georgians.
 
-IMAGE 2
+![PeopleperSite](https://user-images.githubusercontent.com/79594138/141183421-321970b4-7b44-4516-a692-40e4b1bd2083.png)
 
 Wowza!  There are certainly some counties that are lacking in testing locations.  The counties that are obvious offenders are ....  Comparing this to our first plot though, there isn't much in common.  Most importantly, Blairsville is right along with the pack in terms of testing sites.
 
@@ -26,21 +26,20 @@ Wowza!  There are certainly some counties that are lacking in testing locations.
 
 Wanting to make sure our data is similar across months, we then compared our pots in a three-month span.  
 
-IMAGE 3
+![Safe_graph_by_month](https://user-images.githubusercontent.com/79594138/141183336-ed3046c3-d4e2-4b36-bb63-23770a74afc4.png)
 
 At first glance, these seem similar enough!  But then there are some locations with no data for a whole month! Telfair County, for instance, has data for both August and September, but no data for July.  Similar to some of the Chipotle visit data, something might be a bit off with some of the Safegraph data.
 
 ### Additional Plot Attempts
 
-These are two additional plots that are either unfinished, or do not provide any useful imformation.
+These are a couple of other plots that are either unfinished, or do not provide any useful imformation.
 
-IMAGE 1
-
-This plot is an interactive version of our first plot, which could be of more value to an end user.
-
-IMAGE 2
+![Allbyday](https://user-images.githubusercontent.com/79594138/141184583-17041002-ac4b-48a8-8518-2dc528f82292.png)
 
 This plot is a modification of the Chipotle plot done in class, with average hospital visits in Georgia by day.  It's interesting that almost in a pattern, visits are low, then average, then high, average, low, etc.
+
+We also have our first plot as an interactive in Python, but can't figure out how to put it in the readme.  ☺
+
 
 ## Tasks
 
