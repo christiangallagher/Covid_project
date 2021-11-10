@@ -69,7 +69,7 @@ tab2 <- tab2 %>%
   summarize(n = sum(raw_visit_counts, na.rm = TRUE))
 
 tab3 <- merge(tab2, city_pop2019, by.x = "city", by.y = "name")
-write.csv(tab3,file="project3.csv" )
+
 
 ggplot() +
   geom_sf(data = ga) +
@@ -94,6 +94,7 @@ ggplot() +
   geom_sf(data = na.omit(tab3), color = alpha("black", 0.4),
           aes(size = (n/pop2019)*100)) +
   facet_grid(cols = vars(date_range_start))+
-  labs(size = "Proportional Visit Count") +
-  theme_bw() 
+  labs(size = "Proportional Visit Count", title = "Visits to Hospitals by Month") +
+  theme_void() + theme(plot.title = element_text(hjust = 0.5))
 
+ggsave("Safe_graph_by_month.png",width=15,units = "in")
