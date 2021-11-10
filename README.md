@@ -16,22 +16,31 @@ This plot is a bit busy.  We were thinking the "brighter" the county, the larger
 
 ### Additional Factors
 
-Our next thought 
+Our next thought were the additional factors that could affect our data.  What if there is a discrepancy in the number of testing sites by county?  Would people of one county then be a positive test in the neighboring county?  This plot is to shine a light on the availability (or lackthereof) of testing sites for Georgians.
 
-- [Core Places data dictionary](https://docs.safegraph.com/docs/core-places)
-- [Geometry data dictionary](https://docs.safegraph.com/docs/geometry-data)
-- [Patterns data dictionary](https://docs.safegraph.com/docs/monthly-patterns)
-- [KSUDS SafeGraph Data](https://github.com/KSUDS/safegraph_data)
+IMAGE 2
 
-### SafeGraph Packages
+Wowza!  There are certainly some counties that are lacking in testing locations.  The counties that are obvious offenders are ....  Comparing this to our first plot though, there isn't much in common.  Most importantly, Blairsville is right along with the pack in terms of testing sites.
 
-- [SafeGraphR](https://safegraphinc.github.io/SafeGraphR/) and [Github repo](https://github.com/SafeGraphInc/SafeGraphR)
-- [Safegraph_py](https://colab.research.google.com/drive/1V7hnyYuY_dUXQEPkCMZkgMuBFQV4iA_4?usp=sharing) and [Github repo](https://github.com/SafeGraphInc/safegraph_py)
+### Comparing Months, a Hiccup
 
-### Spatial Packages
+Wanting to make sure our data is similar across months, we then compared our pots in a three-month span.  
 
-- [R: sf](https://r-spatial.github.io/sf/)
-- [Python: GeoPandas](https://geopandas.org/docs.html)
+IMAGE 3
+
+At first glance, these seem similar enough!  But then there are some locations with no data for a whole month! Telfair County, for instance, has data for both August and September, but no data for July.  Similar to some of the Chipotle visit data, something might be a bit off with some of the Safegraph data.
+
+### Additional Plot Attempts
+
+These are two additional plots that are either unfinished, or do not provide any useful imformation.
+
+IMAGE 1
+
+This plot is an interactive version of our first plot, which could be of more value to an end user.
+
+IMAGE 2
+
+This plot is a modification of the Chipotle plot done in class, with average hospital visits in Georgia by day.  It's interesting that almost in a pattern, visits are low, then average, then high, average, low, etc.
 
 ## Tasks
 
