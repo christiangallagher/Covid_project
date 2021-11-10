@@ -10,7 +10,7 @@ During the post-vaccine pandemic, is there a salient difference in hospital visi
 
 Our first plot attempt was to see if there was a noticeable relationship between number of Covid cases and average hospital visits by county.  In order to not make Fulton County and metro-Atlanta stick out like a sore thumb, we of course looked at per capita data.  The "hypothesis" is that the more per capita cases in a county, the larger number of hospital visits!
 
-IMAGE
+![](https://ibb.co/VN2Njh4)
 
 This plot is a bit busy.  We were thinking the "brighter" the county, the larger the radius of visits.  Clearly, this didn't pan out.  The one noticeable outlier is Blairsville, in NE Georgia.  This outlier falls under the problem of low population, so it is much easier to display discrepancies when using per capita data.
 
