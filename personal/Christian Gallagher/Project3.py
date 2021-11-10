@@ -102,7 +102,7 @@ theplot=dat_sp_lt100.explore(
     marker_kwds={"radius":2, "fill":True},
     style_kwds={"fillOpacity":1})
 
-folium.TileLayer('Stamen Toner', control=True).add_to(base_inter)  # use folium to add alternative tiles
+folium.TileLayer('Stamen Toner', control=True).add_to(base_inter)  
 folium.LayerControl().add_to(base_inter)  
 
 theplot
