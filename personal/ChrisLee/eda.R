@@ -17,6 +17,8 @@ dat %>%
     slice(5:10) %>%
     pull(popularity_by_day)
 
+glimpse(dat)
+
 datNest <- dat %>%
     slice(1:25) %>% # for the example
     mutate(
@@ -77,7 +79,17 @@ chipotle_in_county %>%
     count(geoid, name)
 
 ksu <- tibble(latitude = 34.037876, longitude = -84.58102) %>%
-    st_as_sf(coords = c("longitude", "latitude"), crs = 4326)
+    st_as_sf(coords = c("longitude", "latitude"), crs = 3310)
+
+cal <- us_counties(states = "California") %>%
+    select(countyfp, countyns, name, aland, awater, state_abbr, geometry)
+
+cal %>%
+    mutate(
+        states_area = aland + awater,
+        sf_area = st_area(geometry)) %>%
+    select(name, states_area, aland, sf_area, awater) %>%
+    filter(name == "Santa Barbara")
 
 # https://epsg.io/4326 units are degrees
 calw <- cal %>%
@@ -94,3 +106,4 @@ calw <- cal %>%
         sf_buffer = st_buffer(sf_center, 24140.2), # 24140.2 is 15 miles
         sf_intersects = st_intersects(., filter(., name == "Los Angeles"), sparse = FALSE)
         )
+
